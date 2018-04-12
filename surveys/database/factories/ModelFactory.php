@@ -1,5 +1,5 @@
 <?php
-
+use Faker\Generator as Faker;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -12,7 +12,7 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\User::class, function (Faker $faker) {
     static $password;
 
     return [
@@ -20,5 +20,25 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
+    ];
+});
+
+$factory->define(App\Question::class, function (Faker $faker) {
+
+    return [
+        'question' => $faker->sentence,
+        'type_id' => rand(1,4)
+    ];
+});
+
+$factory->define(App\Survey::class, function (Faker $faker) {
+
+    $min = rand(12, 100);
+    $max = rand($min, 100);
+
+    return [
+        'survey' => $faker->sentence,
+        'min_age' => $min,
+        'max_age' => $max
     ];
 });
